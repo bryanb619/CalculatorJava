@@ -4,6 +4,7 @@
 //  * java imports *
 
 // Package that provides classes for creating GUI for java programs
+
 //(The package includes graphical components such as buttons, checkboxes, and labels)
 import javax.swing.*;
 
@@ -12,7 +13,6 @@ import java.awt.*;
 
 // handles GUI events (mouse clicks, key presses and window events)
 import java.awt.event.*;
-
 
 
 public class Calculator implements ActionListener
@@ -38,31 +38,28 @@ public class Calculator implements ActionListener
     // font
     Font myFont = new Font("Segoi UI ",Font.BOLD,20);
 
-    double num1=0,num2=0,result=0;
+    double num1,num2,result;
     char operator;
 
 
     Calculator()
     {
-        // window configuration
+        // app window configuration
         Window();
 
-
-        // text field input
+        // text field input for user
         TextInput();
 
-        // buttons
+        // UI clickable buttons
         Buttons();
 
-        frame.add(textField);
-
-        // last call
+        // last call (SET THIS TO LAST call after methods IN CODE)
         frame.setVisible(true);
 
     }
 
-    private void Window()
-    {
+    private void Window() {
+
         // window title
         frame = new JFrame("Calculator");
 
@@ -77,8 +74,8 @@ public class Calculator implements ActionListener
     }
 
 
-    private void TextInput()
-    {
+    private void TextInput() {
+
         // user text
         textField = new JTextField();
 
@@ -91,9 +88,10 @@ public class Calculator implements ActionListener
         // editable = false ( Avoids letters input, sets to text input to false, only GUI can change the text)
         textField.setEditable(false);
 
+        // text field
+        frame.add(textField);
 
         //textField.setBackground(Color.black);
-
 
     }
 
@@ -120,7 +118,7 @@ public class Calculator implements ActionListener
         // clear button
         clearBtn = new JButton("clear");
 
-
+        //
         functionButtons[0] = addBtn;
         functionButtons[1] = subBtn;
         functionButtons[2] = mulBtn;
@@ -164,28 +162,28 @@ public class Calculator implements ActionListener
         // rows layout set up ( 4 rows, 4 columns, 10 horizontal gap, 10 vertical gap)
 
         // 1st row
-        panel.add(numberButtons[1]);
-        panel.add(numberButtons[2]);
-        panel.add(numberButtons[3]);
-        panel.add(addBtn);
+        panel.add(numberButtons[1]);    // number 1
+        panel.add(numberButtons[2]);    // number 2
+        panel.add(numberButtons[3]);    // number 3
+        panel.add(addBtn);              // add button
 
         // 2nd row
-        panel.add(numberButtons[4]);
-        panel.add(numberButtons[5]);
-        panel.add(numberButtons[6]);
-        panel.add(subBtn);
+        panel.add(numberButtons[4]);    // number 4
+        panel.add(numberButtons[5]);    // number 5
+        panel.add(numberButtons[6]);    // number 6
+        panel.add(subBtn);              // subtraction button
 
         // 3rd row
-        panel.add(numberButtons[7]);
-        panel.add(numberButtons[8]);
-        panel.add(numberButtons[9]);
-        panel.add(mulBtn);
+        panel.add(numberButtons[7]);    // number 1
+        panel.add(numberButtons[8]);    // number 1
+        panel.add(numberButtons[9]);    // number 1
+        panel.add(mulBtn);              // multiplication button
 
         // 4th row
-        panel.add(decBtn);
-        panel.add(numberButtons[0]);
-        panel.add(equBtn);
-        panel.add(divBtn);
+        panel.add(decBtn);              // number 1
+        panel.add(numberButtons[0]);    // number 1
+        panel.add(equBtn);              // number 1
+        panel.add(divBtn);              // division button
 
 
         // decimal button transform
@@ -209,5 +207,99 @@ public class Calculator implements ActionListener
     public void actionPerformed(ActionEvent e) {
 
 
+        for (int i = 0; i < 10; i++)
+        {
+            // get event
+            if (e.getSource() == numberButtons[i])
+            {
+                textField.setText(textField.getText().concat(String.valueOf(i)));
+
+            }
+        }
+
+        // * DECIMAL BUTTON *
+        if (e.getSource() == decBtn)
+        {
+            textField.setText(textField.getText().concat("."));
+        }
+
+
+        // * ADD BUTTON *
+        if (e.getSource() == addBtn)
+        {
+            num1 = Double.parseDouble(textField.getText());
+            operator = '+';
+            textField.setText("");
+        }
+
+        // * ADD BUTTON *
+        if (e.getSource() == addBtn)
+        {
+            num1 = Double.parseDouble(textField.getText());
+            operator = '-';
+            textField.setText("");
+        }
+        // * ADD MULTIPLY BUTTON *
+        if (e.getSource() == mulBtn)
+        {
+            num1 = Double.parseDouble(textField.getText());
+            operator = '*';
+            textField.setText("");
+        }
+
+        // * DIVIDE BUTTON *
+        if (e.getSource() == divBtn)
+        {
+            num1 = Double.parseDouble(textField.getText());
+            operator = '/';
+            textField.setText("");
+        }
+
+
+        // * EQUAL BUTTON *
+        if (e.getSource() == equBtn)
+        {
+            num2 = Double.parseDouble(textField.getText());
+
+            switch (operator) {
+
+                // add case
+                case '+' -> result = num1 + num2;
+
+                // subtractions case
+                case '-' -> result = num1 - num2;
+
+                // multiply case
+                case '*' -> result = num1 * num2;
+
+                // divide case
+                case '/' -> result = num1 / num2;
+            }
+
+            // set text field to result
+            textField.setText(String.valueOf(result));
+            // num1  is equal to the result
+            num1 = result;
+        }
+
+        // * CLEAR BUTTON *
+        if (e.getSource() == clearBtn)
+        {
+            textField.setText("");
+        }
+
+        if (e.getSource() == delBtn)
+        {
+            // string text field
+            String string = textField.getText();
+            // text field
+            textField.setText("");
+            for (int i = 0; i < string.length() - 1; i++)
+            {
+                textField.setText(textField.getText() + string.charAt(i));
+            }
+        }
+
     }
+
 }
